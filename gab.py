@@ -2,8 +2,15 @@
 # main.py
 # Processes exoplanet data
 
-import matplotlib.pyplot as plt
+import matplotlib
 import sys
+import pandas as pd
+import numpy as np
+from sklearn import datasets, linear_model
+from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+
+
 
 db_path = 'data/kepler.csv'
 
@@ -38,33 +45,35 @@ def main():
         tokens = noendline.split(',')
         if len(tokens) == 98:
             db.append(tokens)
-    
-    # remove the heading line
-    db = db[1:]
-    
-    # DEBUG
-    db = db[:int(len(db)/1)]
-    
+            
     # DEBUG
     print(len(db))
+	
+	
+	
+    new_db = np.array(db)
+	
+	# names of each variable (columns)
+    row_r1 = new_db[0, :]
+    col = row_r1.tolist()
     
-    r = 2
-    c = 11
+	# delete first row in db (just contains the headers)
+    newer_db=np.delete(new_db,0,0)
+
+	# create a dataframe from the columns and data
+    df = pd.DataFrame(data=newer_db, columns = col)
     
-    masss = []
-    smas = []
-    
-    # only add entries without null values
-    for i,row in enumerate(db):
-        if row[r] != '' and row[c] != '':
-            masss.append(float(row[r]))
-            smas.append(float(row[c]))
-    
-    # plot with matplotlib
-    plt.scatter(masss, smas)
-    plt.show()
-    
-    
+	
+	# sadness starts now
+	
+	# plot radius vs. semi_major_axis
+	#print(type(df["radius"]))
+	#df.plot(x='radius',y='semi_major_axis')
+	
+    #print(df["semi_major_axis"])
+    #print(type(df["radius"]))
+    #plt.plot(df["radius"], df["semi_major_axis"])
+    #plt.show()
 if __name__ == '__main__':
     main()
     sys.exit()
