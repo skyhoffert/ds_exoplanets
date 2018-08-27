@@ -62,18 +62,21 @@ def main():
 
 	# create a dataframe from the columns and data
     df = pd.DataFrame(data=newer_db, columns = col)
-    
 	
-	# sadness starts now
+	# replacing empty spaces with 0's
+    df["radius"]=df["radius"].replace({"": 0})
+    df["semi_major_axis"]=df["semi_major_axis"].replace({"":0})
 	
-	# plot radius vs. semi_major_axis
-	#print(type(df["radius"]))
-	#df.plot(x='radius',y='semi_major_axis')
+	# changing the type of data from str to num
+    df["radius"] = pd.to_numeric(df["radius"])
+    df["semi_major_axis"] = pd.to_numeric(df["semi_major_axis"])
 	
-    #print(df["semi_major_axis"])
-    #print(type(df["radius"]))
-    #plt.plot(df["radius"], df["semi_major_axis"])
-    #plt.show()
+    # scatter plot of two columns
+    plt.scatter(df["radius"], df["semi_major_axis"])
+    plt.show()
+	
+	
+	
 if __name__ == '__main__':
     main()
     sys.exit()
