@@ -66,13 +66,19 @@ def main():
 	# replacing empty spaces with 0's
     df["radius"]=df["radius"].replace({"": 0})
     df["semi_major_axis"]=df["semi_major_axis"].replace({"":0})
+    df["mass"]=df["mass"].replace({"":0})
+	
+	
 	
 	# changing the type of data from str to num
     df["radius"] = pd.to_numeric(df["radius"])
     df["semi_major_axis"] = pd.to_numeric(df["semi_major_axis"])
+    df["mass"]=pd.to_numeric(df["mass"])
 	
     # scatter plot of two columns
-    plt.scatter(df["radius"], df["semi_major_axis"])
+    plt.scatter(x = df["mass"], y = df["semi_major_axis"], s = 10)
+    plt.xlabel("mass", fontsize=13)
+    plt.ylabel("semi_major_axis", fontsize=13)
     plt.show()
 	
 	
